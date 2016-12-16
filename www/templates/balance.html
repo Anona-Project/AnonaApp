@@ -1,0 +1,19 @@
+<ion-view view-title="Balance">
+  <ion-content class="padding">
+    <div class="list card">
+      <div class="item item-avatar">
+        <img src="/img/anonalogo.png">
+        <h2 style="font-size: 25px"><b>{{user.username}}</b></h2>
+        <br>
+      </div>
+      <div class="item item-body" style="height: 300px">
+        <br><br>
+        <h2 style="color: darkgrey;">Account Balance:</h2>
+        <h1 class="text-center" style="color: #1B435D; font-size: 90px"><b>{{user.coins.length}}</b></h1>
+      </div>
+    </div>
+    <div class="row row-bottom">
+    <button class="button button-block button-positive" ng-click="scanBarcode()">Scan QR</button>
+    </div>
+  </ion-content>
+</ion-view>

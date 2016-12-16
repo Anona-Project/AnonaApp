@@ -1,0 +1,28 @@
+<ion-view>
+  <ion-content class="padding" style="background-color: black">
+    <br>
+    <div align="center">
+      <img align="center" style="height: 200px; width: 200px;" src="/img/anonalogo.png" >
+      <h2 style="color: lightseagreen"><b>KEEP YOUR PRIVACY</b></h2>
+    </div>
+    <div class="row">
+      <div class="col col-10"></div>
+      <div class="col col-80">
+        <label  class="item  item-input ">
+          <i class="icon ion-person"></i>
+          <input type="text" style="color: black; padding-left: 1em" placeholder="Username" ng-model="user.username">
+        </label>
+        <br>
+        <label  class="item  item-input">
+          <i class="icon ion-locked" ></i>
+          <input type="password" style="color: black; padding-left: 1em" placeholder="Password" ng-model="user.password">
+        </label>
+      </div>
+      <div class="col col-10"></div>
+    </div>
+    <br>
+    <div class="text-center">
+      <button style="width: 80%" class="button  button-balanced" ng-click="Register()">Register</button>
+    </div>
+  </ion-content>
+</ion-view>
