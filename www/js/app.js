@@ -5,7 +5,7 @@ var base_url = "http://10.192.254.137:3000";
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('starter', ['ionic','ngCordova'])
+var app = angular.module('starter', ['ionic','ngCordova','base64'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -44,6 +44,16 @@ var app = angular.module('starter', ['ionic','ngCordova'])
       }
     }
   })
+    .state('tab.balance-transaction', {
+      url: '/balance/transaction',
+      params:{obj: null},
+      views: {
+        'tab-balance': {
+          templateUrl: 'templates/transaction.html',
+          controller: 'TransactionCtrl'
+        }
+      }
+    })
 
   .state('tab.transactions', {
       url: '/transactions',

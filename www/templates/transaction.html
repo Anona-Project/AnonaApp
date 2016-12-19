@@ -1,0 +1,39 @@
+<ion-view view-title="Item">
+  <ion-content class="padding">
+    <div class="list card">
+
+      <div class="item item-avatar">
+        <img src="img/cart.png">
+        <h2><b>{{data.productName}}</b></h2>
+        <p>{{data.vendorURL}}</p>
+      </div>
+
+      <div class="item item-body text-center">
+        <img class="full-image" src="img/macallan.jpg" style="width: 200px"; height="300px">
+        <h2><b>{{data.vendor}}</b></h2>
+        <h2 style="color: green"><b>{{data.amount}} EUR</b></h2>
+      </div>
+
+      <div class="list">
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Select Office
+          </div>
+          <select ng-model="Office.selected">
+            <option selected>Barcelona - Sants</option>
+            <option>Barcelona - Gran Via</option>
+            <option>Barcelona - Passeig de Gràcia</option>
+            <option>Barcelona - La Maquinista</option>
+            <option>Madrid - Atocha</option>
+            <option>Madrid - Puerta del Sol</option>
+            <option>Madrid - Plaza Real</option>
+          </select>
+        </label>
+      </div>
+
+    </div>
+    <button class="button button-block button-positive" ng-click="ConfirmOrder()">
+      Confirm order
+    </button>
+  </ion-content>
+</ion-view>
