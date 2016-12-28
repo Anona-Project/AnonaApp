@@ -3,7 +3,21 @@
  */
 
 app.controller('BalanceCtrl', function($scope, $http, $ionicPopup, $stateParams, $rootScope, $timeout, $state,  $cordovaBarcodeScanner, $cordovaCamera, $base64) {
-    console.log($rootScope.UserID);
+  /**
+   * Initial values
+    */
+
+  $scope.PIN = {
+    input: ''
+  };
+
+  $scope.QRID = {
+    id: ''
+  };
+
+  $scope.TEMPO = [];
+
+  console.log($rootScope.UserID);
     $http.get(base_url + '/anonausers/' + $rootScope.UserID)
       .success(function (res) {
         $scope.user = res;
@@ -14,12 +28,58 @@ app.controller('BalanceCtrl', function($scope, $http, $ionicPopup, $stateParams,
 
   $scope.scanBarcode = function() {
     $cordovaBarcodeScanner.scan().then(function(imageData) {
-      var ReadQR = $base64.decode(imageData.text);
-      console.log(ReadQR);
-      $state.go('tab.balance-transaction', {obj: ReadQR});
+      //var ReadQR = $base64.decode(imageData.text);
+      $scope.QRID.id = imageData.text;
+      console.log($scope.QRID.id);
+
+      $scope.showPopup();
+
+      //$state.go('tab.balance-transaction', {obj: ReadQR});
     }, function(error) {
       console.log("An error happened -> " + error);
     });
+  };
+
+  $scope.showPopup = function() {
+
+    // An elaborate, custom popup
+    var myPopup = $ionicPopup.show({
+      template:
+      '<div class="item item-input-inset">'+
+      '<label class="item-input-wrapper">'+
+      '<input type="tel" ng-model="PIN.input">'+
+      '</label>'+
+      '</div>',
+      title: 'PIN',
+      subTitle: '',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: '<b>Accept</b>',
+          type: 'button-positive',
+          onTap: function() {
+            $scope.getnewCoins();
+          }
+        }
+      ]
+    });
+
+    myPopup.then(function(res) {
+      console.log('Tapped!', res);
+    });
+  };
+
+  $scope.getnewCoins = function() {
+    $http.get(base_url + '/anonawallet/temporary/' + $scope.QRID.id)
+      .success(function (res) {
+        //[0] necessario para eliminar el objeto
+        $scope.TEMPO = res[0];
+        console.log($scope.TEMPO);
+      })
+      .error(function (err) {
+        console.log(err);
+      });
   };
 
 })

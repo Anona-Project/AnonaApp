@@ -6,6 +6,9 @@ app.controller('RegisterCtrl', function($scope, $http, $ionicPopup, $stateParams
 
   $scope.user = {};
   $scope.Register = function () {
+
+
+
     $http.post(base_url + '/anonausers/signup', $scope.user)
       .success(function (user) {
         $scope.user = {};
