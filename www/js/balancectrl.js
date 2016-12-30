@@ -17,6 +17,7 @@ app.controller('BalanceCtrl', function($scope, $http, $ionicPopup, $stateParams,
 
   $scope.TEMPO = [];
 
+
   console.log($rootScope.UserID);
     $http.get(base_url + '/anonausers/' + $rootScope.UserID)
       .success(function (res) {
@@ -75,6 +76,7 @@ app.controller('BalanceCtrl', function($scope, $http, $ionicPopup, $stateParams,
       .success(function (res) {
         //[0] necessario para eliminar el objeto
         $scope.TEMPO = res[0];
+
         console.log($scope.TEMPO);
       })
       .error(function (err) {
