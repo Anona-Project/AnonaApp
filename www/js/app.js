@@ -37,6 +37,7 @@ var app = angular.module('starter', ['ionic','ngCordova','base64'])
 
   .state('tab.balance', {
     url: '/balance',
+    cache: false,
     views: {
       'tab-balance': {
         templateUrl: 'templates/balance.html',

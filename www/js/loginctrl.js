@@ -4,37 +4,29 @@
 
 app.controller('LoginCtrl', function($scope, $http, $ionicPopup, $stateParams, $rootScope, $timeout, $state) {
 
-
-  var pass = CryptoJS.lib.WordArray.random(256);
-  var passString = CryptoJS.enc.Latin1.stringify(pass);
-
-  function convertToHex(str) {
-    var hex = '';
-    for (var i = 0; i < str.length; i++) {
-      hex += '' + str.charCodeAt(i).toString(16);
-    }
-    return hex;
-  }
-
-  var passPhrase = convertToHex(passString);
-  console.log(passPhrase);
-
-
-  var encrypted = CryptoJS.AES.encrypt("Hola", passPhrase, { mode: CryptoJS.mode.CTR});
-  var decrypted = CryptoJS.AES.decrypt(encrypted, passPhrase, { mode: CryptoJS.mode.CTR});
-
-  console.log('encrypted', encrypted);
-  console.log('decrypted', decrypted.toString(CryptoJS.enc.Utf8));
-
-
-  console.log();
-
   $scope.user = {};
+  $rootScope.kcoin = {};
+
   $scope.Login = function () {
+
     $http.post(base_url + '/anonausers/login', $scope.user)
       .success(function (res) {
         console.log(res);
         $rootScope.UserID = res;
+
+        $http.get(base_url + '/anonausers/' + $rootScope.UserID)
+          .success(function (res) {
+            var decrypted = CryptoJS.AES.decrypt(res.kcoin, $scope.user.password);
+            console.log("Salida en (UTF-8): " + decrypted);
+            var dec = decrypted.toString(CryptoJS.enc.Utf8);
+            console.log("Post UTF-8 (Base64): " + dec);
+
+            $rootScope.kcoin = dec;
+          })
+          .error(function (err) {
+            console.log(err);
+          });
+
         $state.go('tab.balance');
       })
       .error(function (err) {
