@@ -5,7 +5,6 @@
 app.controller('LoginCtrl', function($scope, $http, $ionicPopup, $stateParams, $rootScope, $timeout, $cordovaFile, $state) {
 
   $scope.user = {};
-  $rootScope.kcoin = {};
 
   $scope.Login = function () {
 
