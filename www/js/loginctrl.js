@@ -2,10 +2,9 @@
  * Created by tonimas on 12/12/16.
  */
 
-app.controller('LoginCtrl', function($scope, $http, $ionicPopup, $stateParams, $rootScope, $timeout, $state) {
+app.controller('LoginCtrl', function($scope, $http, $ionicPopup, $stateParams, $rootScope, $timeout, $cordovaFile, $state) {
 
   $scope.user = {};
-  $rootScope.kcoin = {};
 
   $scope.Login = function () {
 
@@ -21,7 +20,20 @@ app.controller('LoginCtrl', function($scope, $http, $ionicPopup, $stateParams, $
             var dec = decrypted.toString(CryptoJS.enc.Utf8);
             console.log("Post UTF-8 (Base64): " + dec);
 
-            $rootScope.kcoin = dec;
+            $cordovaFile.createFile(cordova.file.dataDirectory, "keychain.txt", true)
+              .then(function (success) {
+                console.log(success);
+                // WRITE
+                $cordovaFile.writeFile(cordova.file.dataDirectory, "keychain.txt", dec, true)
+                  .then(function (success) {
+                    console.log(success);
+                  }, function (error) {
+                    // error
+                  });
+              }, function (error) {
+                // error
+              });
+
           })
           .error(function (err) {
             console.log(err);

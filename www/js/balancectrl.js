@@ -2,7 +2,8 @@
  * Created by tonimas on 12/12/16.
  */
 
-app.controller('BalanceCtrl', function($scope, $http, $ionicPopup, $stateParams, $rootScope, $timeout, $state,  $cordovaBarcodeScanner, $cordovaCamera, $base64) {
+app.controller('BalanceCtrl', function($scope, $http, $ionicPopup, $stateParams, $rootScope, $timeout, $state,
+                                       $cordovaBarcodeScanner, $cordovaCamera, $cordovaFile) {
   /**
    * Initial values
     */
@@ -90,56 +91,65 @@ app.controller('BalanceCtrl', function($scope, $http, $ionicPopup, $stateParams,
     $http.get(base_url + '/anonawallet/temporary/' + $scope.QRID.id)
       .success(function (res) {
 
-        var decrypted = CryptoJS.AES.decrypt($rootScope.kcoin, $scope.PIN.input);
-        console.log("Salida sin mod DecPass: " + decrypted);
-        //Kcoin descifrada -- Libre
-        var deckcoin = decrypted.toString(CryptoJS.enc.Latin1);
-        console.log('Final:'+ deckcoin);
+        // READ
+        $cordovaFile.readAsText(cordova.file.dataDirectory, "keychain.txt")
+          .then(function (success) {
+            var kcoin = success;
 
-        //Listado de monedas
-        //[0] necessario para eliminar el objeto
-        $scope.TEMPO = res[0];
+            var decrypted = CryptoJS.AES.decrypt(kcoin, $scope.PIN.input);
+            console.log("Salida sin mod DecPass: " + decrypted);
+            //Kcoin descifrada -- Libre
+            var deckcoin = decrypted.toString(CryptoJS.enc.Latin1);
+            console.log('Final:' + deckcoin);
 
-        console.log($scope.TEMPO);
+            var check = deckcoin.split("-");
+            console.log(check[0]);
+            if (check[0].localeCompare("CORRECT") == 0)
+            {
+              //Listado de monedas
+              //[0] necessario para eliminar el objeto
+              $scope.TEMPO = res[0];
 
-       angular.forEach($scope.TEMPO.ecoins, function(c, index){
-          console.log(c);
+              console.log($scope.TEMPO);
 
-          $http.post(base_url + '/anonabank/coin/', c)
-            .success(function (res) {
+              angular.forEach($scope.TEMPO.ecoins, function (c, index) {
+                console.log(c);
 
-              var encrypted = CryptoJS.AES.encrypt(res._id, deckcoin);
-              var c1 = encrypted.toString();
-              console.log("Coin Cifrada: " + c1);
+                var string = JSON.stringify(c);
 
-              var coinw = {};
-              coinw.userid = $scope.user._id;
-              coinw.coinid = c1;
+                var encrypted = CryptoJS.AES.encrypt(string, check[1]);
+                var c1 = encrypted.toString();
+                console.log("Coin Cifrada: " + c1);
 
-              $http.post(base_url + '/anonawallet/coin/', coinw)
-                .success(function (res) {
-                  $http.get(base_url + '/anonausers/' + $rootScope.UserID)
-                    .success(function (res) {
-                      $scope.user = res;
-                    })
-                    .error(function (err) {
-                      console.log(err);
-                    });
-                })
-                .error(function (err) {
-                  console.log(err);
-                });
-            })
-            .error(function (err) {
-              console.log(err);
-            });
+                var coinw = {};
+                coinw.userid = $scope.user._id;
+                coinw.string = c1;
 
-        });
-
-      })
-      .error(function (err) {
-        console.log(err);
-      });
+                $http.post(base_url + '/anonawallet/coin/', coinw)
+                  .success(function (res) {
+                    $http.get(base_url + '/anonausers/' + $rootScope.UserID)
+                      .success(function (res) {
+                        $scope.user = res;
+                      })
+                      .error(function (err) {
+                        console.log(err);
+                      });
+                  })
+                  .error(function (err) {
+                    console.log(err);
+                  });
+              });
+            }
+            else{
+              $ionicPopup.alert({
+                title: 'Error',
+                template: 'Incorrect PIN'
+              });
+            }
+          });
+          }, function (error) {
+            // error
+          });
   };
 
 })
