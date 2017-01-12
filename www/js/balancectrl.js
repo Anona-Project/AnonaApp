@@ -2,8 +2,7 @@
  * Created by tonimas on 12/12/16.
  */
 
-app.controller('BalanceCtrl', function($scope, $http, $ionicPopup, $stateParams, $rootScope, $timeout, $state,
-                                       $cordovaBarcodeScanner, $cordovaCamera, $cordovaFile) {
+app.controller('BalanceCtrl', function($scope, $http, $ionicPopup, $stateParams, $rootScope, $timeout, $state, $cordovaBarcodeScanner, $cordovaCamera, $cordovaFile, $base64) {
   /**
    * Initial values
     */
