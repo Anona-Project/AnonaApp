@@ -40,6 +40,17 @@ app.controller('BalanceCtrl', function($scope, $http, $ionicPopup, $stateParams,
     });
   };
 
+  $scope.scanBarcodeBuy = function() {
+    $cordovaBarcodeScanner.scan().then(function(imageData) {
+      console.log("Barcode Format -> " + imageData.format);
+      console.log("Cancelled -> " + imageData.cancelled);
+      var ReadQR = $base64.decode(imageData.text);
+      console.log(ReadQR);
+      $state.go('tab.balance-transaction', {obj: ReadQR});
+    }, function(error) {
+      console.log("An error happened -> " + error);
+    });
+  };
 
   $scope.showPopup = function() {
 
@@ -130,4 +141,5 @@ app.controller('BalanceCtrl', function($scope, $http, $ionicPopup, $stateParams,
         console.log(err);
       });
   };
+
 })
