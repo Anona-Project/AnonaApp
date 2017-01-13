@@ -88,16 +88,35 @@ app.controller('TransactionCtrl', function($scope, $stateParams,$rootScope, $sta
                           coins: coins,
                           office: $scope.Office.selected,
                           product: $scope.data.productName,
-                          price: coins.length
+                          price: coins.length,
+                          store: $scope.data.vendor
                         };
                         console.log($scope.transaction);
                         //Sending the petition
                         $http.post(base_url + '/anonabank/pay', $scope.transaction)
                           .success(function (res) {
-                            console.log('success');
-                          })
-                          .error(function (err) {
+                            console.log('success', res);
+                            //Post to add the transaction to the wallet and delete coins
+                            $http.post(base_url + '/anonawallet/addtransaction/'+ $rootScope.UserID, res)
+                              .success(function (complete) {
+                                console.log('success: ', complete);
+
+                                //Alert succes and change state
+                               var completepopup = $ionicPopup.alert({
+                                  title: 'Purchase Done!',
+                                  template: 'now you can see it in the list'
+                                });
+                                completepopup.then($state.go('tab.transactions'));
+                              }).error(function (err) {
+                                console.log(err);
+                              });
+                            //End of the post wallet
+                          }).error(function (err) {
                             console.log(err);
+                            $ionicPopup.alert({
+                              title: 'Error',
+                              template: 'Invalid coins'
+                            });
                           });
                       }else{
                         $ionicPopup.alert({
@@ -116,6 +135,10 @@ app.controller('TransactionCtrl', function($scope, $stateParams,$rootScope, $sta
         });
     }).error(function(data){
         console.log('Error:' + data);
+      $ionicPopup.alert({
+        title: 'Error',
+        template: 'Not enough money'
+      });
     });
     };
 

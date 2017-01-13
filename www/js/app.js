@@ -5,7 +5,7 @@ var base_url = "http://192.168.1.36:3000";
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('starter', ['ionic','ngCordova','base64'])
+var app = angular.module('starter', ['ionic','ngCordova','base64','ja.qr'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -48,6 +48,7 @@ var app = angular.module('starter', ['ionic','ngCordova','base64'])
     .state('tab.balance-transaction', {
       url: '/balance/transaction',
       params:{obj: null},
+      cache: false,
       views: {
         'tab-balance': {
           templateUrl: 'templates/transaction.html',
@@ -58,6 +59,7 @@ var app = angular.module('starter', ['ionic','ngCordova','base64'])
 
   .state('tab.transactions', {
       url: '/transactions',
+      cache: false,
       views: {
         'tab-transactions': {
           templateUrl: 'templates/transactions.html',
@@ -65,10 +67,11 @@ var app = angular.module('starter', ['ionic','ngCordova','base64'])
         }
       }
     })
-    .state('tab.transactionsdetail', {
-      url: '/chats/:chatId',
+    .state('tab.transactions-detail', {
+      url: '/transactions/:trId',
+      cache: false,
       views: {
-        'tab-transactionsdetaill': {
+        'tab-transactions': {
           templateUrl: 'templates/transactiondetail.html',
           controller: 'TransactionDetailCtrl'
         }

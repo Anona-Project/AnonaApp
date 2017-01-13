@@ -1,9 +1,19 @@
-
-<ion-view view-title="{{chat.name}}">
-  <ion-content class="padding">
-    <img ng-src="{{chat.face}}" style="width: 64px; height: 64px">
-    <p>
-      {{chat.lastText}}
-    </p>
+<ion-view>
+  <ion-content>
+    <div class="list card" ng-repeat="transaction in transactions | filter:{transactionid: transactionID}">
+      <div class="item item-avatar">
+        <img src="img/cart.png">
+        <h2 >{{transaction.productname}}</h2>
+        <h2>{{transaction.store}}</h2>
+        <br>
+      </div>
+      <div class="item item-body">
+        <h2 style="color: darkgrey;">Reciving day: {{transaction.recivingday}}</h2>
+        <h2 style="color: darkgrey;">Office: {{transaction.office}}</h2>
+        <div class="text-center">
+        <qr type-number="8" correction-level="'M'" size="200" text="transactionID" image="true"></qr>
+        </div>
+      </div>
+    </div>
   </ion-content>
 </ion-view>

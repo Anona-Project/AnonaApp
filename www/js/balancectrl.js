@@ -17,8 +17,6 @@ app.controller('BalanceCtrl', function($scope, $http, $ionicPopup, $stateParams,
 
   $scope.TEMPO = [];
 
-
-  console.log($rootScope.UserID);
     $http.get(base_url + '/anonausers/' + $rootScope.UserID)
       .success(function (res) {
         $scope.user = res;
