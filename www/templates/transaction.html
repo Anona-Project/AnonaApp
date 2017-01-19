@@ -9,7 +9,14 @@
       </div>
 
       <div class="item item-body text-center">
-        <img class="full-image" src="img/macallan.jpg" style="width: 200px"; height="300px">
+        <img class="full-image" src="img/1.png" style="width: 250px"; height="300px" ng-if="data.productName == 'Pink Watch'">
+        <img class="full-image" src="img/2.png" style="width: 250px"; height="300px" ng-if="data.productName == 'Black Watch'">
+        <img class="full-image" src="img/3.png" style="width: 250px"; height="300px" ng-if="data.productName == 'RED edition Watch'">
+        <img class="full-image" src="img/4.png" style="width: 250px"; height="300px" ng-if="data.productName == 'Green Watch'">
+        <img class="full-image" src="img/5.png" style="width: 250px"; height="300px" ng-if="data.productName == 'Purple Watch'">
+        <img class="full-image" src="img/6.png" style="width: 250px"; height="300px" ng-if="data.productName == 'DeepSky Watch'" >
+        <img class="full-image" src="img/7.png" style="width: 250px"; height="300px" ng-if="data.productName == 'Full Black Watch'">
+        <img class="full-image" src="img/8.png" style="width: 250px"; height="300px" ng-if="data.productName == 'Orange Watch'">
         <h2><b>{{data.vendor}}</b></h2>
         <h2 style="color: green"><b>{{data.amount}} EUR</b></h2>
       </div>

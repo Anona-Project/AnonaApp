@@ -6,7 +6,7 @@ app.controller('RegisterCtrl', function($scope, $http, $ionicPopup) {
 
   $scope.user = {};
   $scope.Register = function () {
-
+    console.log('entro en register');
     //Creamos un clave aleatoria de
     var pass = CryptoJS.lib.WordArray.random(256);
     var passString = CryptoJS.enc.Base64.stringify(pass);
@@ -51,30 +51,45 @@ app.controller('RegisterCtrl', function($scope, $http, $ionicPopup) {
   };
 
   $scope.showPopup = function() {
-
-    // An elaborate, custom popup
-    var myPopup = $ionicPopup.show({
-      template:
-      '<div class="item item-input-inset">'+
-      '<label class="item-input-wrapper">'+
-      '<input type="tel" ng-model="user.pin">'+
-      '</label>'+
-      '</div>',
-      title: 'PIN',
-      subTitle: '',
-      scope: $scope,
-      buttons: [
-        { text: 'Cancel' },
-        {
-          text: '<b>Accept</b>',
-          type: 'button-positive',
-          onTap: function() {
-            $scope.Register();
+    if($scope.user.password.length >= 6) {
+      console.log('if password');
+      // An elaborate, custom popup
+      var myPopup = $ionicPopup.show({
+        template: '<div class="item item-input-inset">' +
+        '<label class="item-input-wrapper">' +
+        '<input type="tel" ng-model="user.pin">' +
+        '</label>' +
+        '</div>',
+        title: 'PIN',
+        subTitle: '',
+        scope: $scope,
+        buttons: [
+          {text: 'Cancel'},
+          {
+            text: '<b>Accept</b>',
+            type: 'button-positive',
+            onTap: function () {
+              if ($scope.user.pin.length >= 6 && $scope.user.password != $scope.user.pin ){
+                $scope.Register();
+              }else{
+                console.log('PIN length less 6');
+                $ionicPopup.alert({
+                  title: 'Warning',
+                  template: 'PIN length is less than 6 and should be diferent from password'
+                });
+              }
+            }
           }
-        }
-      ]
-    });
-
+        ]
+      });
+    }else{
+      // An alert dialog
+      console.log('password length less 6');
+      $ionicPopup.alert({
+        title: 'Warning',
+        template: 'Password length is less than 6'
+      });
+    }
     myPopup.then(function(res) {
       console.log('Tapped!', res);
     });

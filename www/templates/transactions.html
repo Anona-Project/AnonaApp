@@ -4,7 +4,7 @@
       <ion-item class="item-avatar" ng-repeat="transaction in transactions" type="item-text-wrap" href="#/tab/transactions/{{transaction.transactionid}}">
         <img ng-src="img/cart.png">
         <h2>{{transaction.productname}}</h2>
-        <p>Stimated day: {{transaction.recivingday}}</p>
+        <p>Delivery date (aprox): {{transaction.recivingday}}</p>
         <p>{{transaction.office}}</p>
       </ion-item>
     </ion-list>

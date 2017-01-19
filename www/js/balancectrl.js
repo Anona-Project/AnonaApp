@@ -54,12 +54,7 @@ app.controller('BalanceCtrl', function($scope, $http, $ionicPopup, $stateParams,
 
     // An elaborate, custom popup
     var myPopup = $ionicPopup.show({
-      template:
-      '<div class="item item-input-inset">'+
-      '<label class="item-input-wrapper">'+
-      '<input type="tel" ng-model="PIN.input">'+
-      '</label>'+
-      '</div>',
+      template: '<input type="number" style="-webkit-text-security: disc" ng-model="PIN.input">',
       title: 'PIN',
       subTitle: '',
       scope: $scope,
@@ -93,7 +88,7 @@ app.controller('BalanceCtrl', function($scope, $http, $ionicPopup, $stateParams,
           .then(function (success) {
             var kcoin = success;
 
-            var decrypted = CryptoJS.AES.decrypt(kcoin, $scope.PIN.input);
+            var decrypted = CryptoJS.AES.decrypt(kcoin, $scope.PIN.input.toString());
             console.log("Salida sin mod DecPass: " + decrypted);
             //Kcoin descifrada -- Libre
             var deckcoin = decrypted.toString(CryptoJS.enc.Latin1);

@@ -1,5 +1,5 @@
 // Ionic Starter App
-var base_url = "http://192.168.1.36:3000";
+var base_url = "http://10.192.254.137:3000";
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
